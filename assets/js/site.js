@@ -28,9 +28,10 @@
 
   // Big view: new and original side by side, with the story and a "ask about this" button.
   function shots(g) {
-    return g.before
+    const extra = g.more && g.more.length ? `<span class="more-badge">+${g.more.length} photo${g.more.length > 1 ? "s" : ""}</span>` : "";
+    return extra + (g.before
       ? `<div class="shots"><div class="shot"><img src="${esc(g.before)}" alt="${esc(g.title)} - original" loading="lazy"><span>Before</span></div><div class="shot new"><img src="${esc(g.after)}" alt="${esc(g.title)} - reproduction" loading="lazy"><span>After</span></div></div>`
-      : `<div class="shots one"><div class="shot new"><img src="${esc(g.after)}" alt="${esc(g.title)}" loading="lazy"><span>New</span></div></div>`;
+      : `<div class="shots one"><div class="shot new"><img src="${esc(g.after)}" alt="${esc(g.title)}" loading="lazy"><span>New</span></div></div>`);
   }
   let lb;
   function open(g) {
@@ -38,13 +39,20 @@
       lb = document.createElement("div");
       lb.className = "lightbox"; lb.setAttribute("role", "dialog"); lb.setAttribute("aria-modal", "true");
       lb.innerHTML = `<button class="x" aria-label="Close">&times;</button><div class="inner"></div>`;
-      lb.addEventListener("click", (e) => { if (e.target === lb || e.target.closest(".x")) close(); });
+      lb.addEventListener("click", (e) => {
+        if (e.target === lb || e.target.closest(".x")) return close();
+        const a = e.target.closest(".more-photos a");
+        if (a) { e.preventDefault(); const big = lb.querySelector(".zoom"); big.src = a.getAttribute("href"); big.parentElement.hidden = false; big.scrollIntoView({ block: "nearest", behavior: "smooth" }); }
+        if (e.target.closest(".zoom-wrap")) e.target.closest(".zoom-wrap").hidden = true;
+      });
       document.addEventListener("keydown", (e) => e.key === "Escape" && close());
       document.body.append(lb);
     }
     const fig = (src, cap) => `<figure><img src="${esc(src)}" alt="${esc(g.title)} - ${cap}"><figcaption>${cap}</figcaption></figure>`;
     lb.querySelector(".inner").innerHTML = `<div class="big ${g.before ? "" : "one"}">${g.before ? fig(g.before, "Before") : ""}${fig(g.after, g.before ? "After" : "Reproduction")}</div>
+      ${g.more && g.more.length ? `<div class="more-photos">${g.more.map((m) => `<a href="${esc(m)}" target="_blank" rel="noopener"><img src="${esc(m)}" alt="${esc(g.title)} - more" loading="lazy"></a>`).join("")}</div>` : ""}
       <h3>${esc(g.title)}</h3><p>${esc(g.story || "")}</p>
+      <figure class="zoom-wrap" hidden><img class="zoom" alt="${esc(g.title)} - larger photo"><figcaption>Click to close</figcaption></figure>
       <a class="btn red" href="contact.html?about=${encodeURIComponent(g.title)}">Ask about this label</a>`;
     lb.classList.add("open"); document.body.style.overflow = "hidden";
     lb.querySelector(".x").focus();
