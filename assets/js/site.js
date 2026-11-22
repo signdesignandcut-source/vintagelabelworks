@@ -41,23 +41,32 @@
       lb.innerHTML = `<button class="x" aria-label="Close">&times;</button><div class="inner"></div>`;
       lb.addEventListener("click", (e) => {
         if (e.target === lb || e.target.closest(".x")) return close();
-        const a = e.target.closest(".more-photos a");
-        if (a) { e.preventDefault(); const big = lb.querySelector(".zoom"); big.src = a.getAttribute("href"); big.parentElement.hidden = false; big.scrollIntoView({ block: "nearest", behavior: "smooth" }); }
-        if (e.target.closest(".zoom-wrap")) e.target.closest(".zoom-wrap").hidden = true;
+        if (e.target.closest("[data-copy]")) copyLink();
       });
       document.addEventListener("keydown", (e) => e.key === "Escape" && close());
       document.body.append(lb);
     }
     const fig = (src, cap) => `<figure><img src="${esc(src)}" alt="${esc(g.title)} - ${cap}"><figcaption>${cap}</figcaption></figure>`;
     lb.querySelector(".inner").innerHTML = `<div class="big ${g.before ? "" : "one"}">${g.before ? fig(g.before, "Before") : ""}${fig(g.after, g.before ? "After" : "Reproduction")}</div>
-      ${g.more && g.more.length ? `<div class="more-photos">${g.more.map((m) => `<a href="${esc(m)}" target="_blank" rel="noopener"><img src="${esc(m)}" alt="${esc(g.title)} - more" loading="lazy"></a>`).join("")}</div>` : ""}
       <h3>${esc(g.title)}</h3><p>${esc(g.story || "")}</p>
-      <figure class="zoom-wrap" hidden><img class="zoom" alt="${esc(g.title)} - larger photo"><figcaption>Click to close</figcaption></figure>
+      <div class="btns"><button class="btn ghost light" data-copy>Copy link</button><span class="copied" hidden>Link copied</span></div>
+      ${g.more && g.more.length ? `<h4 class="more-head">More photos</h4><div class="more-photos">${g.more.map((m) => `<img src="${esc(m)}" alt="${esc(g.title)} - more" loading="lazy">`).join("")}</div>` : ""}
       <a class="btn red" href="contact.html?about=${encodeURIComponent(g.title)}">Ask about this label</a>`;
-    lb.classList.add("open"); document.body.style.overflow = "hidden";
+    lb.classList.add("open"); document.body.style.overflow = "hidden"; lb.scrollTop = 0;
+    const u = new URL(location.href); u.searchParams.set("job", g.id); history.replaceState(null, "", u);
     lb.querySelector(".x").focus();
   }
-  function close() { if (lb) { lb.classList.remove("open"); document.body.style.overflow = ""; } }
+  function close() {
+    if (!lb) return;
+    lb.classList.remove("open"); document.body.style.overflow = "";
+    const u = new URL(location.href); u.searchParams.delete("job"); history.replaceState(null, "", u);
+  }
+  async function copyLink() {
+    const done = lb.querySelector(".copied");
+    try { await navigator.clipboard.writeText(location.href); done.textContent = "Link copied"; }
+    catch { done.textContent = location.href; }  // no clipboard access: show the link to copy by hand
+    done.hidden = false;
+  }
 
   window.VLW = { esc, shots, open };
 })();

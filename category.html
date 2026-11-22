@@ -32,7 +32,9 @@
 <script>
   const { esc, shots, open } = VLW;
   const id = new URLSearchParams(location.search).get("c");
-  const cat = CATEGORIES.find((c) => c.id === id) || CATEGORIES[0];
+  const jobId = new URLSearchParams(location.search).get("job");
+  const owner = GALLERY.find((g) => g.id === jobId);
+  const cat = CATEGORIES.find((c) => c.id === id) || CATEGORIES.find((c) => owner && c.id === owner.group) || CATEGORIES[0];
   const list = GALLERY.filter((g) => g.group === cat.id);
   document.title = `${cat.name} - Vintage Label Works`;
   document.getElementById("name").textContent = cat.name;
@@ -40,6 +42,9 @@
   const box = document.getElementById("pairs");
   box.innerHTML = list.map((g, i) => `<button class="pair" data-i="${i}">${shots(g)}<div class="cap"><h3>${esc(g.title)}</h3></div></button>`).join("");
   box.addEventListener("click", (e) => { const b = e.target.closest("[data-i]"); if (b) open(list[b.dataset.i]); });
+  // A shared link (?job=p024) opens that job straight away.
+  const job = GALLERY.find((g) => g.id === new URLSearchParams(location.search).get("job"));
+  if (job) open(job);
 </script>
 </body>
 </html>
