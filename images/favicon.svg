@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 66 50">
+  <rect x="2" y="3" width="62" height="44" rx="6" fill="#b8231b" stroke="#1b1a17" stroke-width="3"/>
+  <g fill="#c9962b"><circle cx="8" cy="9" r="2.6"/><circle cx="58" cy="9" r="2.6"/><circle cx="8" cy="41" r="2.6"/><circle cx="58" cy="41" r="2.6"/></g>
+  <text x="33" y="33" text-anchor="middle" font-family="Impact, sans-serif" font-weight="700" font-size="19" fill="#f3ecdc">VLW</text>
+</svg>

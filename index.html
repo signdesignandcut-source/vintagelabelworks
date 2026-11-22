@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vintage Label Works - Reproduction Labels for Vintage Machines</title>
+<meta name="description" content="Reproduction labels, decals and nameplates for vintage grinders, drill presses, motors, lathes, cars and more. Over 200 restorations - see the before and after.">
+<link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-page="home">
+
+<section class="intro">
+  <div class="wrap">
+    <span class="eyebrow">Labels &middot; decals &middot; nameplates</span>
+    <h1>Reproduction labels for vintage machines</h1>
+    <p class="lead">Faded, worn or missing label? Send a photo of what's left. I redraw it to the original size, colors and lettering, so your restoration looks like it just left the factory.</p>
+    <div class="btns"><a class="btn red" href="contact.html">Ask about a label</a></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <h2>See the work</h2>
+    <p class="lead" style="margin-bottom:24px">Pick a category to see before and after photos.</p>
+    <div class="cats" id="cats"></div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:8px">
+  <div class="wrap">
+    <h2>How it works</h2>
+    <div class="steps" style="margin-top:18px">
+      <div><h3>Send photos</h3><p>Use the contact form. A photo straight on, plus the label's size, is ideal.</p></div>
+      <div><h3>Get a price</h3><p>I reply with a quote, usually within a couple of days.</p></div>
+      <div><h3>Approve the proof</h3><p>You see the redrawn label before anything is printed.</p></div>
+      <div><h3>Printed and shipped</h3><p>Durable, laminated material, shipped flat and ready to apply.</p></div>
+    </div>
+  </div>
+</section>
+
+<script src="assets/js/config.js"></script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/site.js"></script>
+<script>
+  const { esc } = VLW;
+  document.getElementById("cats").innerHTML = CATEGORIES.map((c) => `
+    <a class="cat" href="category.html?c=${c.id}">
+      <div class="pic"><img src="${esc(c.image)}" alt="" loading="lazy"></div>
+      <div class="txt"><span class="count">${c.count} restorations</span><h2>${esc(c.name)}</h2><p>${esc(c.blurb)}</p></div>
+    </a>`).join("");
+</script>
+</body>
+</html>

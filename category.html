@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Before &amp; After - Vintage Label Works</title>
+<meta name="description" content="Before and after photos of reproduction labels made by Vintage Label Works.">
+<link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-page="category">
+
+<div class="wrap">
+  <div class="page-head">
+    <a class="back" href="index.html">&larr; All categories</a>
+    <h1 id="name" style="margin-top:10px">Before &amp; After</h1>
+    <p class="lead" id="sub" style="margin:0"></p>
+  </div>
+  <div class="pairs" id="pairs"></div>
+  <div class="section" style="text-align:center">
+    <h2>Need one of these, or something else?</h2>
+    <a class="btn red" href="contact.html">Ask about a label</a>
+  </div>
+</div>
+
+<script src="assets/js/config.js"></script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/site.js"></script>
+<script>
+  const { esc, shots, open } = VLW;
+  const id = new URLSearchParams(location.search).get("c");
+  const cat = CATEGORIES.find((c) => c.id === id) || CATEGORIES[0];
+  const list = GALLERY.filter((g) => g.group === cat.id);
+  document.title = `${cat.name} - Vintage Label Works`;
+  document.getElementById("name").textContent = cat.name;
+  document.getElementById("sub").textContent = `${list.length} restorations. Click any one for the full story.`;
+  const box = document.getElementById("pairs");
+  box.innerHTML = list.map((g, i) => `<button class="pair" data-i="${i}">${shots(g)}<div class="cap"><h3>${esc(g.title)}</h3></div></button>`).join("");
+  box.addEventListener("click", (e) => { const b = e.target.closest("[data-i]"); if (b) open(list[b.dataset.i]); });
+</script>
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact - Vintage Label Works</title>
+<meta name="description" content="Ask about a reproduction label. Send photos of the original and get a quote.">
+<link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-page="contact">
+
+<div class="wrap section">
+  <span class="eyebrow">Contact</span>
+  <h1>Ask about a label</h1>
+  <p class="lead">Tell me about the machine and attach photos of the old label, even if it's barely readable. I'll reply by email with a price.</p>
+
+  <div class="contact" style="margin-top:28px">
+    <form id="form" method="POST" enctype="multipart/form-data">
+      <div class="row">
+        <div><label for="name">Your name</label><input id="name" name="name" required autocomplete="name"></div>
+        <div><label for="email">Your email</label><input id="email" name="email" type="email" required autocomplete="email"></div>
+      </div>
+      <div class="row">
+        <div><label for="machine">Machine <span class="opt">(make, model, year)</span></label><input id="machine" name="machine" placeholder="e.g. Craftsman 397.19340 grinder"></div>
+        <div><label for="phone">Phone <span class="opt">(optional)</span></label><input id="phone" name="phone" type="tel" autocomplete="tel"></div>
+      </div>
+      <div><label for="message">Message</label><textarea id="message" name="message" required placeholder="Label size, how many you need, colors, anything else"></textarea></div>
+      <div>
+        <label for="photos">Photos <span class="opt">(up to 5)</span></label>
+        <input id="photos" name="attachment" type="file" accept="image/*" multiple>
+        <p class="hint" id="photo-hint">Straight-on photos in daylight work best. Photos are shrunk before sending.</p>
+      </div>
+      <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <input type="hidden" name="_subject" id="subject" value="New label request - Vintage Label Works">
+      <input type="hidden" name="_template" value="table">
+      <input type="hidden" name="_next" id="next">
+      <div id="msg"></div>
+      <div><button class="btn red" type="submit" id="send">Send message</button></div>
+    </form>
+
+    <aside class="side">
+      <h3>Good to include</h3>
+      <ul>
+        <li>A photo of the whole label, straight on</li>
+        <li>Close-ups of small text or numbers</li>
+        <li>The label's width and height, or a ruler in the photo</li>
+        <li>How many you need</li>
+      </ul>
+      <p style="margin:14px 0 0;color:var(--ink-2);font-size:.92rem">I don't make VIN plates, serial number or certification tags.</p>
+    </aside>
+  </div>
+</div>
+
+<script src="assets/js/config.js"></script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/site.js"></script>
+<script>
+  const form = document.getElementById("form"), msg = document.getElementById("msg"), photos = document.getElementById("photos");
+  const to = SITE.formId || SITE.email;
+  if (to) form.action = "https://formsubmit.co/" + encodeURIComponent(to);
+  document.getElementById("next").value = new URL("thanks.html", location.href).href;
+
+  // Arrived from a gallery photo: start the message with that label's name.
+  const about = new URLSearchParams(location.search).get("about");
+  if (about) {
+    document.getElementById("message").value = `I'm interested in a label like your "${about}".\n\n`;
+    document.getElementById("subject").value = `Label request: ${about}`;
+  }
+
+  // Shrink photos in the browser (phone photos are 3-5 MB) so the email stays small.
+  const MAX = 5;
+  async function shrink(file) {
+    if (!file.type.startsWith("image/") || file.size < 600 * 1024) return file;
+    try {
+      const bmp = await createImageBitmap(file);
+      const k = Math.min(1, 1800 / Math.max(bmp.width, bmp.height));
+      const c = document.createElement("canvas");
+      c.width = Math.round(bmp.width * k); c.height = Math.round(bmp.height * k);
+      c.getContext("2d").drawImage(bmp, 0, 0, c.width, c.height);
+      const blob = await new Promise((r) => c.toBlob(r, "image/jpeg", 0.85));
+      return blob ? new File([blob], file.name.replace(/\.\w+$/, "") + ".jpg", { type: "image/jpeg" }) : file;
+    } catch { return file; } // a format this browser can't open (e.g. HEIC) is sent as is
+  }
+  photos.addEventListener("change", async () => {
+    let files = [...photos.files];
+    const hint = document.getElementById("photo-hint");
+    if (files.length > MAX) { files = files.slice(0, MAX); hint.textContent = `Only the first ${MAX} photos will be sent.`; }
+    if (!window.DataTransfer) return;
+    const dt = new DataTransfer();
+    for (const f of files) dt.items.add(await shrink(f));
+    photos.files = dt.files;
+    const mb = [...dt.files].reduce((a, f) => a + f.size, 0) / 1048576;
+    hint.textContent = `${dt.files.length} photo${dt.files.length === 1 ? "" : "s"} ready (${mb.toFixed(1)} MB).`;
+  });
+
+  form.addEventListener("submit", (e) => {
+    if (!to) { e.preventDefault(); msg.innerHTML = `<div class="notice err">The form isn't connected to an email address yet.</div>`; return; }
+    const mb = [...photos.files].reduce((a, f) => a + f.size, 0) / 1048576;
+    if (mb > 9) { e.preventDefault(); msg.innerHTML = `<div class="notice err">The photos add up to ${mb.toFixed(1)} MB. Please send fewer or smaller photos.</div>`; return; }
+    document.getElementById("send").disabled = true;
+    document.getElementById("send").textContent = "Sending...";
+  });
+  window.addEventListener("pageshow", () => { const b = document.getElementById("send"); b.disabled = false; b.textContent = "Send message"; });
+</script>
+</body>
+</html>
