@@ -22,7 +22,7 @@
   const footer = document.createElement("footer");
   footer.className = "site-footer";
   footer.innerHTML = `<div class="wrap foot">${brand}
-    <span>Reproduction labels, decals and nameplates for restorations &middot; <a href="contact.html">Contact</a> &middot; <a href="${esc(S.instagram)}" target="_blank" rel="noopener">Instagram @mattblast</a></span>
+    <span>Reproduction labels, decals and nameplates for restorations &middot; <a href="contact.html">Contact</a> &middot; <a href="${esc(S.instagram)}" target="_blank" rel="noopener">Instagram @mattblast</a> &middot; <a href="${esc(S.garageJournal)}" target="_blank" rel="noopener">GarageJournal thread</a></span>
     <span>&copy; ${new Date().getFullYear()} ${esc(S.name)}. Trademarks belong to their owners.</span></div>`;
   document.body.append(footer);
 

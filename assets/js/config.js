@@ -5,6 +5,7 @@ window.SITE = {
   name: "Vintage Label Works",
   byline: "by MattBlast",
   instagram: "https://www.instagram.com/mattblast/",
+  garageJournal: "https://www.garagejournal.com/forum/threads/vintage-grinder-sticker-reproduction.356439/",
 
   // CONTACT FORM. Messages are sent to you by FormSubmit (formsubmit.co), free, no account.
   // 1) Put your email here and publish the site.
