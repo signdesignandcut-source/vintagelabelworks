@@ -56,7 +56,7 @@ p { margin: 0 0 1em; }
 /* home: intro + category tiles */
 .intro { padding-block: 44px 8px; }
 .cats { display: grid; grid-template-columns: 1fr; gap: 20px; }
-@media (min-width: 600px) { .cats { grid-template-columns: repeat(2, 1fr); } .cat:first-child { grid-column: span 2; } .cat:first-child .pic { aspect-ratio: 8/3; } }
+@media (min-width: 600px) { .cats { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 1000px) { .cats { grid-template-columns: repeat(4, 1fr); } }
 .cat { display: flex; flex-direction: column; background: var(--white); border: 2px solid var(--ink); border-radius: var(--radius); overflow: hidden; color: var(--ink); text-decoration: none; transition: transform .15s; }
 .cat:hover { transform: translateY(-3px); }
