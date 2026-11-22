@@ -130,3 +130,9 @@ input[type=file] { padding: 9px; background: var(--paper-2); }
 .more-photos img { width: 100%; max-height: 80vh; object-fit: contain; background: #111; border-radius: 6px; }
 .btn.light { color: var(--paper); border-color: var(--paper); }
 .copied { align-self: center; font-size: .9rem; color: #d6cfbd; word-break: break-all; }
+.strip { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 12px; }
+.strip span { font: 600 .8rem var(--head); letter-spacing: .12em; text-transform: uppercase; color: #d6cfbd; margin-right: 4px; }
+.strip button { padding: 0; border: 2px solid #4f4a40; border-radius: 4px; background: #111; cursor: pointer; width: 74px; height: 74px; overflow: hidden; }
+.strip button:hover { border-color: var(--brass); }
+.strip img { width: 100%; height: 100%; object-fit: cover; }
+.more-photos img { scroll-margin-top: 16px; }

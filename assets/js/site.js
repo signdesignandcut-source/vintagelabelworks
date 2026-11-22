@@ -42,15 +42,18 @@
       lb.addEventListener("click", (e) => {
         if (e.target === lb || e.target.closest(".x")) return close();
         if (e.target.closest("[data-copy]")) copyLink();
+        const t = e.target.closest("[data-more]");
+        if (t) lb.querySelector("#more-" + t.dataset.more).scrollIntoView({ behavior: "smooth", block: "start" });
       });
       document.addEventListener("keydown", (e) => e.key === "Escape" && close());
       document.body.append(lb);
     }
     const fig = (src, cap) => `<figure><img src="${esc(src)}" alt="${esc(g.title)} - ${cap}"><figcaption>${cap}</figcaption></figure>`;
     lb.querySelector(".inner").innerHTML = `<div class="big ${g.before ? "" : "one"}">${g.before ? fig(g.before, "Before") : ""}${fig(g.after, g.before ? "After" : "Reproduction")}</div>
+      ${g.more && g.more.length ? `<div class="strip"><span>${g.more.length} more photo${g.more.length > 1 ? "s" : ""}:</span>${g.more.map((m, k) => `<button data-more="${k}" aria-label="Show photo ${k + 1}"><img src="${esc(m)}" alt=""></button>`).join("")}</div>` : ""}
       <h3>${esc(g.title)}</h3><p>${esc(g.story || "")}</p>
       <div class="btns"><button class="btn ghost light" data-copy>Copy link</button><span class="copied" hidden>Link copied</span></div>
-      ${g.more && g.more.length ? `<h4 class="more-head">More photos</h4><div class="more-photos">${g.more.map((m) => `<img src="${esc(m)}" alt="${esc(g.title)} - more" loading="lazy">`).join("")}</div>` : ""}
+      ${g.more && g.more.length ? `<h4 class="more-head">More photos</h4><div class="more-photos">${g.more.map((m, k) => `<img id="more-${k}" src="${esc(m)}" alt="${esc(g.title)} - photo ${k + 1}" loading="lazy">`).join("")}</div>` : ""}
       <a class="btn red" href="contact.html?about=${encodeURIComponent(g.title)}">Ask about this label</a>`;
     lb.classList.add("open"); document.body.style.overflow = "hidden"; lb.scrollTop = 0;
     const u = new URL(location.href); u.searchParams.set("job", g.id); history.replaceState(null, "", u);
