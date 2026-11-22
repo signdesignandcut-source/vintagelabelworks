@@ -18,7 +18,7 @@
     <span class="eyebrow">Labels &middot; decals &middot; nameplates</span>
     <h1>Reproduction labels for vintage machines</h1>
     <p class="lead">Faded, worn or missing label? Send a photo of what's left. I redraw it to the original size, colors and lettering, so your restoration looks like it just left the factory.</p>
-    <div class="btns"><a class="btn red" href="contact.html">Ask about a label</a><a class="btn ghost" id="gj" target="_blank" rel="noopener">Follow along on GarageJournal</a></div>
+    <div class="btns"><a class="btn red" href="contact.html">Ask about a label</a></div>
   </div>
 </section>
 
@@ -47,7 +47,6 @@
 <script src="assets/js/site.js"></script>
 <script>
   const { esc } = VLW;
-  document.getElementById("gj").href = SITE.garageJournal;
   document.getElementById("cats").innerHTML = CATEGORIES.map((c) => `
     <a class="cat" href="category.html?c=${c.id}">
       <div class="pic"><img src="${esc(c.image)}" alt="" loading="lazy"></div>
