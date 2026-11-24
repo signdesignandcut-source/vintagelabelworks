@@ -1,0 +1,101 @@
+{
+ "p144": {
+  "title": "Craftsman 397.19451 3/4HP Grinder Label",
+  "after": 2,
+  "before": null,
+  "drop": [
+   3
+  ]
+ },
+ "p033": {
+  "category": "Automotive"
+ },
+ "p061": {
+  "category": "Automotive"
+ },
+ "p085": {
+  "category": "Automotive"
+ },
+ "p183": {
+  "category": "Baldor"
+ },
+ "p092": {
+  "split": [
+   {
+    "suffix": "a",
+    "title": "Craftsman General Purpose Motor Label",
+    "category": "Craftsman",
+    "after": 1,
+    "before": 2,
+    "more": []
+   },
+   {
+    "suffix": "b",
+    "title": "Delta DP220 Drill Press Serial Number Plate",
+    "category": "Delta",
+    "after": 1,
+    "before": 3,
+    "more": []
+   }
+  ]
+ },
+ "p088": {
+  "split": [
+   {
+    "suffix": "a",
+    "title": "Craftsman 103.24511 Drill Press Tag",
+    "category": "Craftsman",
+    "after": 1,
+    "before": 2,
+    "more": []
+   },
+   {
+    "suffix": "b",
+    "title": "Craftsman 103.23900 6in Jointer Tag",
+    "category": "Craftsman",
+    "after": 1,
+    "before": 3,
+    "more": []
+   }
+  ]
+ },
+ "p130": {
+  "split": [
+   {
+    "suffix": "a",
+    "title": "Craftsman 103.22170 Table Saw Tag",
+    "category": "Craftsman",
+    "after": 1,
+    "before": 2,
+    "more": []
+   },
+   {
+    "suffix": "b",
+    "title": "Craftsman 103.0404 Scroll Saw Tag",
+    "category": "Craftsman",
+    "after": 1,
+    "more": []
+   }
+  ]
+ },
+ "p082": {
+  "split": [
+   {
+    "suffix": "a",
+    "title": "Conde Induction Motor Label",
+    "category": "Other Projects",
+    "after": 2,
+    "before": 4,
+    "more": []
+   },
+   {
+    "suffix": "b",
+    "title": "TGY-515 Mill Spindle Speed Label",
+    "category": "Other Projects",
+    "after": 1,
+    "before": 3,
+    "more": []
+   }
+  ]
+ }
+}
