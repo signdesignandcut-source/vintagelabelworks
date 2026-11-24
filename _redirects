@@ -1,0 +1,5 @@
+# Notes and build files live in the repository but are not part of the website.
+/README.md / 302
+/COMPETITORS.md / 302
+/build/* / 302
+/build / 302
